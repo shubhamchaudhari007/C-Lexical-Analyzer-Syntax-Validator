@@ -130,11 +130,44 @@ Identifier : main
 Symbol : (
 Symbol : )
 Symbol : {
-Numeric Constant : 10
+Keyword : int
+Identifier : i
 Operator : =
-String Literal : "Hello World"
-ERROR :
-Line No 12 : expected ':' before ';' token
+Numeric Constant : 10
+Symbol : ;
+Keyword : int
+Identifier : ss
+Operator : =
+Numeric Constant : 10
+Operator : >
+Numeric Constant : 20
+Operator : ?
+Numeric Constant : 10
+Operator : :
+Numeric Constant : 20
+Symbol : ;
+Keyword : switch
+Symbol : (
+Identifier : size
+Symbol : )
+Symbol : {
+Keyword : case
+Numeric Constant : 4
+Symbol : :
+Identifier : printf
+Symbol : (
+String Literal : "Size is %d\n"
+Operator : ,
+Identifier : size
+Symbol : )
+Symbol : ;
+Keyword : default
+Symbol : :
+Identifier : printf
+Symbol : (
+
+ERROR 
+Line No 12 :  Missing Terminating Character  ->  "
 
 ```
 ---
