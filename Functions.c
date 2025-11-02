@@ -3,7 +3,7 @@
 #include "Info.h"
 #include <stdlib.h>
 
-#define MAXBRAC 1000
+
 char bracketschk[MAXBRAC];
 int brac_index = -1;
 
@@ -56,7 +56,7 @@ int isalphabet(char ch)
 
 int isSymbol(char ch)
 {
-    if (ch == ']' || ch == '[' || ch == '{' || ch == '}' || ch == '(' || ch == ')' || ch == ';')
+    if (ch == ']' || ch == '[' || ch == '{' || ch == '}' || ch == '(' || ch == ')' || ch == ';' || ch == ':')
     {
         return 1;
     }
@@ -91,9 +91,13 @@ void reportError(char *msg, int line, char ch)
 
 void push(char ch)
 {
-    if (brac_index < MAXBRAC)
+    if (brac_index < MAXBRAC - 1)
     {
         bracketschk[++brac_index] = ch;
+    }else{
+        printf(RED"Error : \n"RESET);
+        printf(RED"Bracket Stack Overflow\n"RESET);
+        exit(1);
     }
 }
 
@@ -118,6 +122,10 @@ void checkbrackets(FILE *fp)
 {
     char ch;
 
+    memset(bracketschk, 0, sizeof(bracketschk));
+    brac_index = -1;
+    line_number_brac = 1;
+
     while ((ch = fgetc(fp)) != EOF)
     {
         if (ch == '#')
@@ -126,6 +134,27 @@ void checkbrackets(FILE *fp)
         if (ch == '/')
             skipComment(fp);
 
+        /*Skip string literals                 commented this because sometimes user forget to terminate string
+                                             literal and when we skip this string then the brackets also get in that condition so bracket missing error will happens at this time*/
+        // if (ch == '"') {
+        //     char prev = 0;
+        //     while ((ch = fgetc(fp)) != EOF) {
+        //         if (ch == '"' && prev != '\\') break;
+        //         prev = ch;
+        //     }
+        //     continue;
+        // }
+
+        //   Skip character literals
+        // if (ch == '\'') {
+        //     char prev = 0;
+        //     while ((ch = fgetc(fp)) != EOF) {
+        //         if (ch == '\'' && prev != '\\') break;
+        //         prev = ch;
+        //     }
+        //     continue;
+        // }
+        
         if (ch == '\n')
         {
             line_number_brac++;
@@ -144,25 +173,26 @@ void checkbrackets(FILE *fp)
                 printf(RED "Line No %d : Extra Closing Bracket %c \n" RESET, line_number_brac+1, ch);
                 exit(1);
             }
-            char exp;
-            if (bracketschk[brac_index] == '(')
-                exp = ')';
-            if (bracketschk[brac_index] == '{')
-                exp = '}';
-            if (bracketschk[brac_index] == '[')
-                exp = ']';
+            
             char open = pop();
             if (!matchBrackets(open, ch))
             {
-
+                char exp;
+                if (bracketschk[brac_index] == '(')
+                    exp = ')';
+                if (bracketschk[brac_index] == '{')
+                    exp = '}';
+                if (bracketschk[brac_index] == '[')
+                    exp = ']';
                 printf(RED "ERROR :\n" RESET);
                 printf(RED "Line No %d : Mismatch Brackets -> %c (Expected '%c' )\n" RESET, line_number_brac+1, ch, exp);
                 exit(1);
             }
         }
     }
-
-    if (brac_index != -1)
+    // for(int i=0;i<brac_index;i++)
+    // printf("%c\n",bracketschk[i]);
+    if (brac_index >= 0)
     {
         printf(RED "ERROR : Unclosed Brackets Detected %c \n" RESET, bracketschk[brac_index]);
         exit(1);

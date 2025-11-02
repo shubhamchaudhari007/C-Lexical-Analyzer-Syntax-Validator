@@ -12,6 +12,12 @@
 #define GRAY     "\033[1;90m"
 #define PURPLE   "\033[1;95m" 
 
+#define MAXBRAC 1000
+
+extern int brac_index;
+extern int line_number_brac;
+extern char bracketschk[MAXBRAC];
+
 char pop();
 void push(char ch);
 int matchBrackets(char open, char close);

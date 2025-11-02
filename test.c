@@ -1,21 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-/*
+#include<stdio.h>
+// hi ?
+int main(){
+    int i = 10;
+    int 12size = 4;
+    float f1 = 12.2;
+    int ss = 10 > 20 ? 10 : 20;
+    switch(size){
+        case 4 :
+            printf("Size is %d\n",size);
+            
+        default :
+            printf("Invalid Choice\n");
 
-
-*/
-
-//
-int main()
-{
-    int i = 0x123 ;
-    char ch = '\b';
-    int _abc;
-    int ___abcd = 10 > 20 :;
-    int k = 10 > 20 ? 1 : 0;
-    float f1 = 1.2f;
-    float j = 12.2f;
-
-    printf("Hello world\n");
-    return 0;
+    }
 }

@@ -4,27 +4,31 @@
 
 int line_no = 0;
 
+int ternary_ope = 0;
+
 int main(int argc, char *argv[])
 {
 
     if (argc < 2)
     {
         printf(RED "Please Give File !!\n" RESET);
+        printf(YELLOW"Usage : ./a.out <sample.c> file\n"RESET);
         return 0;
     }
 
     if (!checkExtension(argv[1], ".c"))
     {
         printf(RED "Please give file with .c extension only \n" RESET);
+        
         return 0;
     }
     FILE *fp;
     fp = fopen(argv[1], "r");
 
-    checkbrackets(fp);
+    brac_index = -1;
+    line_number_brac = 1;
 
-    rewind(fp);
-    checkternery(fp);
+    checkbrackets(fp);
 
     rewind(fp);
     char ch;
@@ -54,8 +58,25 @@ int main(int argc, char *argv[])
         }
         else if (isoperator(ch))
         {
-            addchar(ch);
-            token_operator(fp);
+            if(ch == '?'){
+                ternary_ope = 1;
+                addchar(ch);
+                token_operator(fp);
+            }else if(ch == ':'){
+
+                if(ternary_ope){
+                    addchar(ch);
+                    token_operator(fp);
+                    ternary_ope = 0;
+                }else{
+                    addchar(ch);
+                    token_symbol();
+                }
+            }else{
+                addchar(ch);
+                token_operator(fp);
+            }
+            
         }
         else if (isSymbol(ch))
         {

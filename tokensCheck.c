@@ -10,22 +10,6 @@ int line = 0;                // line number for ternary numbers
 char token[100];
 int token_index = 0;
 
-char ternary[100];
-int ternary_index = -1;
-
-void add_ternary(char ch)
-{
-    ternary[++ternary_index] = ch;
-}
-
-void remove_ternary()
-{
-    if (ternary_index >= 0)
-    {
-        ternary[ternary_index--];
-    }
-}
-
 void resettoken()
 {
     token[0] = '\0';
@@ -389,52 +373,9 @@ void skipComment(FILE *fp)
     }
     if (ch == EOF)
     {
-        reportError("unterminated comment", line_no, '/');
+        reportError("unterminated comment", line_number_brac, '/');
         return;
     }
 
     resettoken();
-}
-
-void checkternery(FILE *fp)
-{
-    char ch;
-    line = 1;
-    while ((ch = fgetc(fp)) != EOF)
-    {
-
-        if (ch == '/')
-            skipComment(fp);
-
-        if (ch == '#')
-            skipincludes(fp);
-
-        // line = line_no;
-
-        if (ch == '\n')
-        {
-            line++;
-        }
-        if (ch == '?')
-        {
-            add_ternary(ch);
-        }
-        if (ch == ':' && ternary_index >= 0)
-        {
-            remove_ternary();
-        }
-        else if (ch == ':' && ternary_index < 0)
-        {
-            printf(RED "ERROR :\n" RESET);
-            printf(RED "Line No %d : expected '?' or ',' before ‘:’ token\n" RESET, line);
-            exit(1);
-        }
-    }
-
-    if (ternary_index != -1)
-    {
-        printf(RED "ERROR :\n" RESET);
-        printf(RED "Line No %d : expected ‘:’ before ‘;’ token\n" RESET, line);
-        exit(1);
-    }
 }
