@@ -1,9 +1,10 @@
 #include<stdio.h>
 // hi ?
 int main(){
-    int i = 10;
-    int 12size = 4;
-    float f1 = 12.2;
+    int i = 010;
+    int size = 4
+    ;
+    float f1 = 12.2f;
     int ss = 10 > 20 ? 10 : 20;
     switch(size){
         case 4 :

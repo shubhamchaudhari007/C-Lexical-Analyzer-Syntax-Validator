@@ -121,9 +121,6 @@ int matchBrackets(char open, char close)
 void checkbrackets(FILE *fp)
 {
     char ch;
-
-    memset(bracketschk, 0, sizeof(bracketschk));
-    brac_index = -1;
     line_number_brac = 1;
 
     while ((ch = fgetc(fp)) != EOF)
